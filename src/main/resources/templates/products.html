@@ -14,8 +14,12 @@
 <body>
 
 <div class="container">
-    <div th:replace="~{navigation :: navigation}" />
     <h1>Каталог товаров</h1>
+    <form method="POST" th:action="@{/products/filter_product}">
+        <input type="number" name="min" th:value="${#httpServletRequest.getParameter('min')}" placeholder="Минимальная цена">
+        <input type="number" name="max" th:value="${#httpServletRequest.getParameter('max')}" placeholder="Максимальная цена">
+        <button class="btn btn-primary" type="submit">Отобразить</button>
+    </form>
     <table class="table table-hover">
         <thead class="thead-dark">
         <tr>
@@ -42,15 +46,9 @@
                 </a>
             </li>
             <li class="page-item" th:classappend="${i eq products.number + 1} ? 'active'"
-                th:each="i : ${#numbers.sequence( products.number + 1, products.totalPages > 10 + products.number ? products.number + 10 : products.totalPages, 1)}">
-                <a class="page-link" th:href="@{?p={id}(id=${i})}" th:text="${i}"
-                   th:title="${'Страница '+ i}"
-                   rel="tooltip"></a>
-            </li>
-            <li class="page-item disabled" th:if="${products.number + 10 < products.totalPages}">
-                <a class="page-link svg-icon" href="#">
-                    <span data-feather="more-horizontal" width="20" height="20"></span>
-                </a>
+                th:each="i : ${#numbers.sequence( 1, products.totalPages, 1)}">
+                <a class="page-link" th:href="@{?p={id}(id=${i}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}" th:text="${i}"
+                   th:title="${'Страница '+ i}" data-toggle="tooltip"></a>
             </li>
             <li class="page-item" th:classappend="${products.number + 1 eq products.totalPages} ? 'disabled'">
                 <a class="page-link"

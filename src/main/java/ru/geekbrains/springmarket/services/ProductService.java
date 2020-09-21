@@ -16,15 +16,15 @@ public class ProductService {
         return productRepository.findAll(PageRequest.of(page, size));
     }
 
-    public Page<Product> getMaxPrice(int page, int size) {
-        return productRepository.getProductByMaxPricePage(PageRequest.of(page, size));
+    public Page<Product> getMaxPrice(int page, int size, Float max) {
+        return productRepository.getProductByPriceGreaterThanEqual(max, PageRequest.of(page, size));
     }
 
-    public Page<Product> getMinPrice(int page, int size) {
-        return productRepository.getProductByMinPricePage(PageRequest.of(page, size));
+    public Page<Product> getMinPrice(int page, int size, Float min) {
+        return productRepository.getProductByPriceLessThanEqual(min, PageRequest.of(page, size));
     }
 
-    public Page<Product> getMinAndMaxPrice(int page, int size) {
-        return productRepository.getProductByMinAndMaxPriceList(PageRequest.of(page, size));
+    public Page<Product> getMinAndMaxPrice(int page, int size, Float min, Float max) {
+        return productRepository.getProductByPriceGreaterThanEqualAndPriceLessThanEqual(min, max, PageRequest.of(page, size));
     }
 }
