@@ -1,0 +1,16 @@
+server:
+  port: 8180
+  servlet:
+    context-path: /market
+spring:
+  datasource:
+    platform: postgres
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/simple_market?currentSchema=public
+    username: postgres
+    password: 12345
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL94Dialect
