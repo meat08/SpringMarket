@@ -40,7 +40,7 @@
         <ul class="pagination justify-content-center font-weight-bold">
             <li class="page-item" th:classappend="${products.number eq 0} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{?p={id}(id=${products.number lt 2 ? 1 : products.number})}"
+                   th:href="@{?p={id}(id=${products.number lt 2 ? 1 : products.number}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}"
                    aria-label="Previous" title="Предыдущая страница" data-toggle="tooltip">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
@@ -52,7 +52,7 @@
             </li>
             <li class="page-item" th:classappend="${products.number + 1 eq products.totalPages} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{?p={id}(id=${products.number + 2})}"
+                   th:href="@{?p={id}(id=${products.number + 2}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}"
                    aria-label="Next" title="Следующая страница" data-toggle="tooltip">
                     <span aria-hidden="true">&raquo;</span>
                 </a>

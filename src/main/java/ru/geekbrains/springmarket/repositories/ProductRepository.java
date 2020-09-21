@@ -12,5 +12,5 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     Page<Product> getProductByPriceLessThanEqual(Float max, Pageable var);
 
-    Page<Product> getProductByPriceGreaterThanEqualAndPriceLessThanEqual(Float max, Float min, Pageable var);
+    Page<Product> getProductByPriceGreaterThanEqualAndPriceLessThanEqual(Float min, Float max, Pageable var);
 }
