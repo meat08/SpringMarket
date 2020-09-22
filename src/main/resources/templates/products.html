@@ -16,8 +16,8 @@
 <div class="container">
     <h1>Каталог товаров</h1>
     <form method="POST" th:action="@{/products/filter_product}">
-        <input type="number" name="min" th:value="${#httpServletRequest.getParameter('min')}" placeholder="Минимальная цена">
-        <input type="number" name="max" th:value="${#httpServletRequest.getParameter('max')}" placeholder="Максимальная цена">
+        <input type="number" name="min" th:value="${param.min != null ? param.min : null}" placeholder="Минимальная цена">
+        <input type="number" name="max" th:value="${param.max != null ? param.max : null}" placeholder="Максимальная цена">
         <button class="btn btn-primary" type="submit">Отобразить</button>
     </form>
     <table class="table table-hover">
@@ -40,19 +40,19 @@
         <ul class="pagination justify-content-center font-weight-bold">
             <li class="page-item" th:classappend="${products.number eq 0} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{?p={id}(id=${products.number lt 2 ? 1 : products.number}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}"
+                   th:href="@{?p={id}(id=${products.number lt 2 ? 1 : products.number}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}"
                    aria-label="Previous" title="Предыдущая страница" data-toggle="tooltip">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
             <li class="page-item" th:classappend="${i eq products.number + 1} ? 'active'"
                 th:each="i : ${#numbers.sequence( 1, products.totalPages, 1)}">
-                <a class="page-link" th:href="@{?p={id}(id=${i}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}" th:text="${i}"
+                <a class="page-link" th:href="@{?p={id}(id=${i}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}" th:text="${i}"
                    th:title="${'Страница '+ i}" data-toggle="tooltip"></a>
             </li>
             <li class="page-item" th:classappend="${products.number + 1 eq products.totalPages} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{?p={id}(id=${products.number + 2}, min=${#httpServletRequest.getParameter('min')}, max=${#httpServletRequest.getParameter('max')})}"
+                   th:href="@{?p={id}(id=${products.number + 2}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}"
                    aria-label="Next" title="Следующая страница" data-toggle="tooltip">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
