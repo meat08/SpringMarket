@@ -6,7 +6,7 @@ spring:
   datasource:
     platform: postgres
     driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/simple_market?currentSchema=public
+    url: jdbc:postgresql://localhost:5432/spring_market?currentSchema=public
     username: postgres
     password: 12345
   jpa:
