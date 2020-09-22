@@ -38,7 +38,7 @@
     </table>
     <nav aria-label="Pagination" th:if="${products.totalPages > 1}">
         <ul class="pagination justify-content-center font-weight-bold">
-            <li class="page-item" th:classappend="${products.number eq 0} ? 'disabled'">
+            <li class="page-item" th:classappend="${products.isFirst()} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{?p={id}(id=${products.number lt 2 ? 1 : products.number}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}"
                    aria-label="Previous" title="Предыдущая страница" data-toggle="tooltip">
@@ -50,7 +50,7 @@
                 <a class="page-link" th:href="@{?p={id}(id=${i}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}" th:text="${i}"
                    th:title="${'Страница '+ i}" data-toggle="tooltip"></a>
             </li>
-            <li class="page-item" th:classappend="${products.number + 1 eq products.totalPages} ? 'disabled'">
+            <li class="page-item" th:classappend="${products.isLast()} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{?p={id}(id=${products.number + 2}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}"
                    aria-label="Next" title="Следующая страница" data-toggle="tooltip">
