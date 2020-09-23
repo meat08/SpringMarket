@@ -12,16 +12,13 @@
 </head>
 
 <body>
-<!-- В поле input price странное поведение. Не дает изменить дробную часть.
-     Т.е. если цена 5.4, то при указании 5.5 появляется всплывающее окно
-     "Введите допустимое значение. Ближайшие допустимые значения: 5,4 и 6,4 -->
 <div class="container">
     <h1>Изменение товара</h1>
     <form method="POST" th:action="@{/products/update/{id}(id=${product.id})}" th:object="${product}">
         <label for="name">Наименование</label>
         <input type="text" th:field="*{name}" id="name" required="required" placeholder="Наименование">
         <label for="price">Цена</label>
-        <input type="number" th:field="*{price}" required="required" id="price" placeholder="Цена">
+        <input type="number" th:field="*{price}" required="required" id="price" placeholder="Цена" step="0.01">
         <input class="btn btn-primary" type="submit" value="Обновить данные">
         <a class="btn btn-primary" th:href="@{/products}">Отмена</a>
     </form>
