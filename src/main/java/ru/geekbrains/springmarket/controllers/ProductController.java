@@ -1,13 +1,14 @@
 package ru.geekbrains.springmarket.controllers;
 
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import ru.geekbrains.springmarket.entities.Product;
 import ru.geekbrains.springmarket.services.ProductService;
+import ru.geekbrains.springmarket.utils.ProductFilter;
+import java.util.Map;
 
 
 @Controller
@@ -18,32 +19,30 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public String showAllProducts(Model model, @RequestParam(defaultValue = "1", name = "p") Integer page, @RequestParam(required = false) Float min, @RequestParam(required = false) Float max) {
+    public String showAllProducts(Model model,
+                                  @RequestParam(defaultValue = "1", name = "p") Integer page,
+                                  @RequestParam Map<String, String> params) {
         if (page < 1) {
             page = 1;
         }
-        if (min != null & max == null) {
-            model.addAttribute("products", productService.getMaxPrice(page-1, PAGE_SIZE, min));
-        } else if (min == null & max != null) {
-            model.addAttribute("products", productService.getMinPrice(page-1, PAGE_SIZE, max));
-        } else if (min != null & max != null) {
-            model.addAttribute("products", productService.getMinAndMaxPrice(page-1, PAGE_SIZE, min, max));
-        } else {
-            model.addAttribute("products", productService.findAll(page-1, PAGE_SIZE));
-        }
+        ProductFilter productFilter = new ProductFilter(params);
+        Page<Product> products = productService.findAll(productFilter.getSpec(), page-1, PAGE_SIZE);
+        model.addAttribute("products", products);
+        model.addAttribute("filterDefinition", productFilter.getFilterDefinition());
         return "products";
     }
 
-    @PostMapping("/filter_product")
-    public String filterProductByPrice(@RequestParam Float min, @RequestParam Float max) {
-        if (min != null & max == null) {
-            return "redirect:/products?min="+min;
-        } else if (min == null & max != null) {
-            return "redirect:/products?max="+max;
-        } else if (min != null & max != null) {
-            return "redirect:/products?max="+max+"&min="+min;
-        } else {
-            return "redirect:/products";
-        }
+    @GetMapping("/edit_product/{id}")
+    public String showUpdateForm(@PathVariable("id") Long id, Model model) {
+        Product product = productService.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid product Id:" + id));
+        model.addAttribute("product", product);
+        return "update_product";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateUser(Product product) {
+        productService.save(product);
+        return "redirect:/products";
     }
 }
