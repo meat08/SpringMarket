@@ -15,10 +15,13 @@
 
 <div class="container">
     <h1>Каталог товаров</h1>
-    <form method="POST" th:action="@{/products/filter_product}">
+    <h3>Фильтр</h3>
+    <form method="GET" th:action="@{/products}">
+        <input type="text" name="name" th:value="${param.name != null ? param.name : null}" placeholder="Наименование">
         <input type="number" name="min" th:value="${param.min != null ? param.min : null}" placeholder="Минимальная цена">
         <input type="number" name="max" th:value="${param.max != null ? param.max : null}" placeholder="Максимальная цена">
         <button class="btn btn-primary" type="submit">Отобразить</button>
+        <a class="btn btn-primary" th:href="@{/products}">Очистить фильтр</a>
     </form>
     <table class="table table-hover">
         <thead class="thead-dark">
@@ -26,6 +29,7 @@
             <th>ID</th>
             <th>Название</th>
             <th>Цена</th>
+            <th>Действие</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +37,9 @@
             <td th:text="${p.id}"></td>
             <td th:text="${p.name}"></td>
             <td th:text="${p.price}"></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/products/edit_product/' + ${p.id}}">Редактировать</a>
+            </td>
         </tr>
         </tbody>
     </table>
@@ -40,21 +47,35 @@
         <ul class="pagination justify-content-center font-weight-bold">
             <li class="page-item" th:classappend="${products.isFirst()} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{?p={id}(id=${products.number lt 2 ? 1 : products.number}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}"
+                   th:href="@{'/products?p=1' + ${filterDefinition}}"
+                   aria-label="Previous" title="На первую страницу" data-toggle="tooltip">
+                    <span aria-hidden="true"><<<</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${products.isFirst()} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{'/products?p=' + ${products.previousOrFirstPageable().getPageNumber() + 1} + ${filterDefinition}}"
                    aria-label="Previous" title="Предыдущая страница" data-toggle="tooltip">
-                    <span aria-hidden="true">&laquo;</span>
+                    <span aria-hidden="true">Назад</span>
                 </a>
             </li>
             <li class="page-item" th:classappend="${i eq products.number + 1} ? 'active'"
-                th:each="i : ${#numbers.sequence( 1, products.totalPages, 1)}">
-                <a class="page-link" th:href="@{?p={id}(id=${i}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}" th:text="${i}"
+                th:each="i : ${#numbers.sequence((products.number - 1 > 0 ? products.number - 1 : 1), (products.number + 3 < products.totalPages ? products.number + 3 : products.totalPages), 1)}">
+                <a class="page-link" th:href="@{'/products?p=' + ${i} + ${filterDefinition}}" th:text="${i}"
                    th:title="${'Страница '+ i}" data-toggle="tooltip"></a>
             </li>
             <li class="page-item" th:classappend="${products.isLast()} ? 'disabled'">
                 <a class="page-link"
-                   th:href="@{?p={id}(id=${products.number + 2}, min=${param.min != null ? param.min : null}, max=${param.max != null ? param.max : null})}"
+                   th:href="@{'/products?p='+ ${products.nextOrLastPageable().getPageNumber() + 1} + ${filterDefinition}}"
                    aria-label="Next" title="Следующая страница" data-toggle="tooltip">
-                    <span aria-hidden="true">&raquo;</span>
+                    <span aria-hidden="true">Вперед</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${products.isLast()} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{'/products?p='+ ${products.totalPages} + ${filterDefinition}}"
+                   aria-label="Next" title="На последнюю страницу" data-toggle="tooltip">
+                    <span aria-hidden="true">>>></span>
                 </a>
             </li>
         </ul>
