@@ -4,6 +4,23 @@ CREATE TABLE products (
     price   NUMERIC NOT NULL
 );
 
+create table orders (
+                        id                      bigserial PRIMARY KEY,
+                        price                   NUMERIC,
+                        customer_name           VARCHAR(255),
+                        customer_phone          INT,
+                        customer_address        VARCHAR(255)
+);
+
+create table order_items (
+                             id                      bigserial PRIMARY KEY,
+                             product_id              BIGINT REFERENCES products(id),
+                             order_id                BIGINT REFERENCES orders(id),
+                             price                   NUMERIC,
+                             price_per_product       NUMERIC,
+                             quantity                INT
+);
+
 INSERT INTO products (name, price) VALUES
 ('Apple', 5.40),
 ('Orange', 12.50),

@@ -14,6 +14,7 @@
 <body>
 
 <div class="container">
+    <div th:replace="~{navigation :: navigation(Products)}" />
     <h1>Каталог товаров</h1>
     <h3>Фильтр</h3>
     <form method="GET" th:action="@{/products}">
@@ -38,6 +39,7 @@
             <td th:text="${p.name}"></td>
             <td th:text="${p.price}"></td>
             <td>
+                <a class="btn btn-success" th:href="@{'/cart/add/' + ${p.id}}">В корзину</a>
                 <a class="btn btn-primary" th:href="@{'/products/edit_product/' + ${p.id}}">Редактировать</a>
             </td>
         </tr>
