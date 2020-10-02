@@ -38,7 +38,7 @@
         </tr>
         </tbody>
     </table>
-    <form method="POST" th:action="@{/cart/save_order}" th:object="${order}">
+    <form method="POST" th:action="@{/orders/save_order}" th:object="${order}">
         <div class="form-group col-md-6">
             <label for="nameInput">Имя</label>
             <input class="form-control" th:field="*{customerName}" name="name" type="text" id="nameInput">
