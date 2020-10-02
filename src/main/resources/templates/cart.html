@@ -45,6 +45,8 @@
         </tr>
         </tbody>
     </table>
+    <a th:if="${!@cart.items.isEmpty()}" class="btn btn-danger" th:href="@{'/cart/clear/'}">Очистить корзину</a>
+    <a th:if="${!@cart.items.isEmpty()}" class="btn btn-success" th:href="@{'/cart/create_order/'}">Оформить заказ</a>
 </div>
 
 </body>

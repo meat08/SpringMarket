@@ -21,7 +21,7 @@ import java.util.List;
 @Data
 public class Cart {
     private List<OrderItem> items;
-    private int price;
+    private Float price;
 
     @PostConstruct
     public void init() {
@@ -78,9 +78,13 @@ public class Cart {
     }
 
     public void recalculate() {
-        price = 0;
+        price = 0f;
         for (OrderItem o : items) {
             price += o.getPrice();
         }
+    }
+
+    public void clear() {
+        items.clear();
     }
 }
