@@ -8,7 +8,7 @@ create table orders (
                         id                      bigserial PRIMARY KEY,
                         price                   NUMERIC,
                         customer_name           VARCHAR(255),
-                        customer_phone          INT,
+                        customer_phone          BIGINT,
                         customer_address        VARCHAR(255)
 );
 

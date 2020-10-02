@@ -45,7 +45,7 @@
         </div>
         <div class="form-group col-md-6">
             <label for="phoneInput">Телефон</label>
-            <input class="form-control" th:field="*{customerPhone}" name="phone" type="number" id="phoneInput">
+            <input class="form-control" th:field="*{customerPhone}" name="phone" type="tel" id="phoneInput" pattern="[0-9]{11}">
         </div>
         <div class="form-group col-md-6">
             <label for="addressInput">Адрес</label>

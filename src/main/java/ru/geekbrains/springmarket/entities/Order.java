@@ -28,7 +28,7 @@ public class Order {
     private String customerName;
 
     @Column(name = "customer_phone")
-    private Integer customerPhone;
+    private Long customerPhone;
 
     @Column(name = "customer_address")
     private String customerAddress;
