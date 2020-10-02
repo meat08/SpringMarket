@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.geekbrains.springmarket.entities.Product;
 import ru.geekbrains.springmarket.exceptions.ResourceNotFoundException;
-import ru.geekbrains.springmarket.services.OrderService;
 import ru.geekbrains.springmarket.services.ProductService;
 import ru.geekbrains.springmarket.utils.Cart;
 
@@ -21,7 +20,6 @@ import java.io.IOException;
 @AllArgsConstructor
 public class CartController {
     private ProductService productService;
-    private OrderService orderService;
     private Cart cart;
 
     @GetMapping
