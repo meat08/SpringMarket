@@ -1,12 +1,13 @@
 package ru.geekbrains.springmarket.controllers;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springmarket.entities.Product;
 import ru.geekbrains.springmarket.services.ProductService;
+import ru.geekbrains.springmarket.utils.ProductFilter;
 
-import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -15,24 +16,11 @@ public class RestProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts() {
-        return productService.findAll(Specification.where(null), 0, 10).getContent();
-    }
-
-    @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
-        return productService.findById(id).get();
-    }
-
-    @PostMapping
-    public Product createProduct(@RequestBody Product p) {
-        p.setId(null);
-        return productService.save(p);
-    }
-
-    @PutMapping
-    public Product updateProduct(@RequestBody Product p) {
-        return productService.save(p);
+    public Page<Product> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
+                                        @RequestParam(defaultValue = "5", name = "s") Integer size,
+                                        @RequestParam Map<String, String> params) {
+        ProductFilter productFilter = new ProductFilter(params);
+        return productService.findAll(productFilter.getSpec(), page, size);
     }
 
 }
