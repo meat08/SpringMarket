@@ -1,25 +1,27 @@
 <div ng-controller="storeController as sc">
     <h3>Товары</h3>
     <br>
-    <h4>Фильтр</h4>
-    <form novalidate ng-submit="sc.updateTable()">
-        <div class="form-group col-md-6">
-            <label for="elementTitle">Наименование</label>
-            <input class="form-control" type="text" ng-model="filterProduct.title" id="elementTitle">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="elementMinPrice">Минимальная цена</label>
-            <input class="form-control" type="number" ng-model="filterProduct.min" id="elementMinPrice">
-        </div>
-        <div class="form-group col-md-6">
-            <label for="elementMaxPrice">Максимальная цена</label>
-            <input class="form-control" type="number" ng-model="filterProduct.max" id="elementMaxPrice">
-        </div>
-        <div>
-            <button class="btn btn-success" type="submit">Применить</button>
-            <button class="btn btn-danger" type="button" ng-click="sc.clearFilter()">Сбросить</button>
-        </div>
-    </form>
+    <h4><button class="btn btn-success" type="button" ng-click="sc.displayFilters()">Фильтры</button></h4>
+    <div ng-hide="!sc.isShow">
+        <form novalidate ng-submit="sc.updateTable()">
+            <div class="form-group col-md-6">
+                <label for="elementTitle">Наименование</label>
+                <input class="form-control" type="text" ng-model="filterProduct.title" id="elementTitle">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="elementMinPrice">Минимальная цена</label>
+                <input class="form-control" type="number" ng-model="filterProduct.min" id="elementMinPrice">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="elementMaxPrice">Максимальная цена</label>
+                <input class="form-control" type="number" ng-model="filterProduct.max" id="elementMaxPrice">
+            </div>
+            <div>
+                <button class="btn btn-success" type="submit">Применить</button>
+                <button class="btn btn-danger" type="button" ng-click="sc.clearFilters()">Сбросить</button>
+            </div>
+        </form>
+    </div>
     <br>
     <div>
         <div ui-grid="sc.gridOptions" class="grid" ui-grid-pagination></div>

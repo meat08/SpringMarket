@@ -32,7 +32,7 @@ angular.module('app').controller('storeController', function ($scope, uiGridCons
         sc.gridApi.core.refresh();
     }
 
-    sc.clearFilter = function () {
+    sc.clearFilters = function () {
         $http.get(contextPath + '/api/v1/products')
             .then(function (response) {
                 if ($scope.filterProduct != null) {
@@ -41,6 +41,10 @@ angular.module('app').controller('storeController', function ($scope, uiGridCons
                 sc.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
             });
     };
+
+     sc.displayFilters = function() {
+         sc.isShow = !sc.isShow;
+     }
 
     sc.gridOptions = {
         paginationPageSizes: [5, 10, 20],
