@@ -1,7 +1,9 @@
 <div ng-controller="storeController as sc">
-    <h3>Товары</h3>
     <br>
-    <h4><button class="btn btn-success" type="button" ng-click="sc.displayFilters()">Фильтры</button></h4>
+    <h3>Товары</h3>
+    <button class="btn btn-success" type="button" ng-click="sc.displayFilters()">Фильтры</button>
+    <button class="btn btn-success" ng-click="sc.updateTable()">&#8635;</button>
+    <br>
     <div ng-hide="!sc.isShow">
         <form novalidate ng-submit="sc.updateTable()">
             <div class="form-group col-md-6">
@@ -26,5 +28,4 @@
     <div>
         <div ui-grid="sc.gridOptions" class="grid" ui-grid-pagination></div>
     </div>
-    <button class="btn btn-success" ng-click="sc.updateTable()">Обновить</button>
 </div>
