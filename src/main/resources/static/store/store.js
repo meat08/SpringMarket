@@ -5,10 +5,9 @@ angular.module('app').controller('storeController', function ($scope, uiGridCons
             pageSize: 5,
             sort: null
         };
+        let sc = this;
 
-    //из-за пагинации нормально не работают фильтры (не могу нормально обновить таблицу)
-    //если после применения фильтров кликнуть на любую кнопку в меню пагинации - отобразит нормально
-    $scope.fillTable = function(pageNumber,size) {
+     sc.fillTable = function(pageNumber,size) {
         pageNumber = pageNumber > 0 ? pageNumber - 1:0;
         $http({
             url: contextPath + '/api/v1/products',
@@ -22,29 +21,28 @@ angular.module('app').controller('storeController', function ($scope, uiGridCons
             }
         })
             .then(function(response){
-                $scope.gridOptions.data = response.data.content;
-                console.log($scope.gridOptions.data);
-                $scope.gridOptions.totalItems = response.data.totalElements;
+                sc.gridOptions.data = response.data.content;
+                sc.gridOptions.totalItems = response.data.totalElements;
             });
     }
 
-    $scope.updateTable = function () {
-        $scope.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
-        // $scope.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        console.log($scope.gridApi)
+    sc.updateTable = function () {
+        sc.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
+        // sc.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
+        sc.gridApi.core.refresh();
     }
 
-    $scope.clearFilter = function () {
+    sc.clearFilter = function () {
         $http.get(contextPath + '/api/v1/products')
             .then(function (response) {
                 if ($scope.filterProduct != null) {
                     $scope.filterProduct = null;
                 }
-                $scope.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
+                sc.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
             });
     };
 
-    $scope.gridOptions = {
+    sc.gridOptions = {
         paginationPageSizes: [5, 10, 20],
         paginationPageSize: paginationOptions.pageSize,
         enableColumnMenus:true,
@@ -55,16 +53,16 @@ angular.module('app').controller('storeController', function ($scope, uiGridCons
             { field: 'price', name: 'Цена', type: 'number' }
         ],
         onRegisterApi: function(gridApi) {
-            $scope.gridApi = gridApi;
+            sc.gridApi = gridApi;
             gridApi.pagination.on.paginationChanged(
                 $scope,
                 function (newPage, pageSize) {
                     paginationOptions.pageNumber = newPage;
                     paginationOptions.pageSize = pageSize;
-                    $scope.fillTable(newPage,pageSize)
+                    sc.fillTable(newPage,pageSize)
                 });
         }
     };
 
-    $scope.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
+    sc.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
 });

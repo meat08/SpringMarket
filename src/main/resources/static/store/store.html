@@ -1,8 +1,8 @@
-<div>
+<div ng-controller="storeController as sc">
     <h3>Товары</h3>
     <br>
     <h4>Фильтр</h4>
-    <form novalidate ng-submit="updateTable()">
+    <form novalidate ng-submit="sc.updateTable()">
         <div class="form-group col-md-6">
             <label for="elementTitle">Наименование</label>
             <input class="form-control" type="text" ng-model="filterProduct.title" id="elementTitle">
@@ -17,12 +17,12 @@
         </div>
         <div>
             <button class="btn btn-success" type="submit">Применить</button>
-            <button class="btn btn-danger" type="button" ng-click="clearFilter()">Сбросить</button>
+            <button class="btn btn-danger" type="button" ng-click="sc.clearFilter()">Сбросить</button>
         </div>
     </form>
     <br>
-    <div ng-controller="storeController">
-        <div ui-grid="gridOptions" class="grid" ui-grid-pagination></div>
+    <div>
+        <div ui-grid="sc.gridOptions" class="grid" ui-grid-pagination></div>
     </div>
-    <button class="btn btn-success" ng-click="updateTable()">Обновить</button>
+    <button class="btn btn-success" ng-click="sc.updateTable()">Обновить</button>
 </div>
