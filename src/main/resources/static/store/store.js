@@ -1,4 +1,4 @@
-angular.module('app').controller('storeController', function ($scope, uiGridConstants, $http) {
+angular.module('app').controller('storeController', function ($scope, uiGridConstants, $http, i18nService) {
         const contextPath = 'http://localhost:8180/market';
         let paginationOptions = {
             pageNumber: 1,
@@ -63,6 +63,6 @@ angular.module('app').controller('storeController', function ($scope, uiGridCons
                 });
         }
     };
-
+    i18nService.setCurrentLang('ru');
     sc.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
 });
