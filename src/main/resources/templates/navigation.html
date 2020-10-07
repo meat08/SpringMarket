@@ -25,6 +25,8 @@
                 <li class="nav-item" th:classappend="${activeTab == 'Orders' ? 'active' : ''}">
                     <a class="nav-link" th:href="@{/orders}">Заказы</a>
                 </li>
+                <a class="btn btn-success" th:href="@{/registration}">Регистрация</a>
+                <a class="btn btn-primary" th:href="@{/login}">Войти</a>
             </ul>
         </div>
     </nav>

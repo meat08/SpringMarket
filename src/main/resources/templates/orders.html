@@ -21,7 +21,7 @@
         <tr>
             <th>ID</th>
             <th>Сумма</th>
-            <th>Имя клиента</th>
+            <th>Имя получателя</th>
             <th>Номер телефона</th>
             <th>Адрес</th>
             <th>Товары</th>
@@ -31,9 +31,9 @@
         <tr th:each="o : ${orders}">
             <td th:text="${o.id}"></td>
             <td th:text="${o.price}"></td>
-            <td th:text="${o.user.email}"></td>
-            <td th:text="${o.user.phoneNumber}"></td>
-            <td th:text="${o.user.address}"></td>
+            <td th:text="${o.recipientName}"></td>
+            <td th:text="${o.recipientPhone}"></td>
+            <td th:text="${o.recipientAddress}"></td>
             <td >
                <table class="table table-hover">
                    <tr>
