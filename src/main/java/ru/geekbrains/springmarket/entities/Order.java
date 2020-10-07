@@ -21,15 +21,11 @@ public class Order {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<OrderItem> items;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     @Column(name = "price")
     private Float price;
 
-    @Column(name = "customer_name")
-    private String customerName;
-
-    @Column(name = "customer_phone")
-    private Long customerPhone;
-
-    @Column(name = "customer_address")
-    private String customerAddress;
 }
