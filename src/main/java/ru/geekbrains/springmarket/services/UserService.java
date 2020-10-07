@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrains.springmarket.entities.Role;
 import ru.geekbrains.springmarket.entities.User;
+import ru.geekbrains.springmarket.repositories.RoleRepository;
 import ru.geekbrains.springmarket.repositories.UserRepository;
 
 import java.util.Collection;
@@ -19,10 +20,16 @@ import java.util.stream.Collectors;
 @Service
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setRoleRepository(RoleRepository roleRepository) {
+        this.roleRepository = roleRepository;
     }
 
     public User findByUsername(String username) {
@@ -40,6 +47,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void saveUser(User user) {
+        user.setRoles(roleRepository.findRolesByNameEquals("ROLE_USER"));
         userRepository.save(user);
     }
 
