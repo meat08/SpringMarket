@@ -3,6 +3,7 @@ package ru.geekbrains.springmarket.services;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.springmarket.entities.Order;
+import ru.geekbrains.springmarket.entities.User;
 import ru.geekbrains.springmarket.repositories.OrderRepository;
 
 import java.util.List;
@@ -16,8 +17,11 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<Order> findByUser(User user) {
+        return orderRepository.findOrdersByUserEquals(user);
+    }
+
     public void save(Order order) {
-        order.getItems().forEach(oi -> oi.setOrder(order));
         orderRepository.save(order);
     }
 

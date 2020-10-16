@@ -29,7 +29,10 @@ CREATE TABLE products (
 CREATE TABLE orders (
     id                      bigserial PRIMARY KEY,
     user_id                 BIGSERIAL REFERENCES users(id),
-    price                   NUMERIC
+    price                   NUMERIC,
+    recipient_name          VARCHAR(50),
+    recipient_phone         BIGINT,
+    recipient_address       VARCHAR(255)
 );
 
 CREATE TABLE order_items (
@@ -68,8 +71,8 @@ VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN');
 
-INSERT INTO users (username, password, email)
+INSERT INTO users (username, password, email, phone_number, address)
 VALUES
-('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user1@example.com');
+('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user1@example.com', '79991234567', 'Earth');
 
 INSERT INTO users_roles(user_id, role_id) VALUES (1, 1);

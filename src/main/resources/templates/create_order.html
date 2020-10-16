@@ -38,18 +38,18 @@
         </tr>
         </tbody>
     </table>
-    <form method="POST" th:action="@{/orders/save_order}" th:object="${order}">
+    <form method="POST" th:action="@{/orders/save_order}">
         <div class="form-group col-md-6">
             <label for="nameInput">Имя</label>
-            <input class="form-control" th:field="*{customerName}" name="name" type="text" id="nameInput">
+            <input class="form-control" required name="name" th:value="${user.username}" type="text" id="nameInput">
         </div>
         <div class="form-group col-md-6">
             <label for="phoneInput">Телефон</label>
-            <input class="form-control" th:field="*{customerPhone}" name="phone" type="tel" id="phoneInput" pattern="[0-9]{11}">
+            <input class="form-control" required name="phone" th:value="${user.phoneNumber}" type="tel" id="phoneInput" pattern="[0-9]{11}">
         </div>
         <div class="form-group col-md-6">
             <label for="addressInput">Адрес</label>
-            <input class="form-control" th:field="*{customerAddress}" name="address" type="text" id="addressInput">
+            <input class="form-control" required name="address" th:value="${user.address}" type="text" id="addressInput">
         </div>
         <button class="btn btn-primary" type="submit">Оформить</button>
     </form>
