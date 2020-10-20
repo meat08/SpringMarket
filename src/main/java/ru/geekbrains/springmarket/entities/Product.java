@@ -16,7 +16,7 @@ public class Product {
     private Long id;
 
     @Column(name = "name")
-    private String name;
+    private String title;
 
     @Column(name = "price")
     private Float price;

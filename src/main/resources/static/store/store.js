@@ -1,72 +1,54 @@
-angular.module('app').controller('storeController', function ($scope, uiGridConstants, $http, i18nService) {
-        const contextPath = 'http://localhost:8180/market';
-        let paginationOptions = {
-            pageNumber: 1,
-            pageSize: 5,
-            sort: null
-        };
-        let sc = this;
+angular.module('app').controller('storeController', function ($scope, $http) {
+    const contextPath = 'http://localhost:8180/market';
 
-     sc.fillTable = function(pageNumber,size) {
-        pageNumber = pageNumber > 0 ? pageNumber - 1:0;
+    $scope.fillTable = function (pageIndex = 1) {
         $http({
             url: contextPath + '/api/v1/products',
             method: 'GET',
             params: {
-                p: pageNumber,
-                s: size,
-                name: $scope.filterProduct != null ? $scope.filterProduct.title : '',
-                min: $scope.filterProduct != null ? $scope.filterProduct.min : '',
-                max: $scope.filterProduct != null ? $scope.filterProduct.max : ''
+                title: $scope.filter ? $scope.filter.title : null,
+                min_price: $scope.filter ? $scope.filter.min_price : null,
+                max_price: $scope.filter ? $scope.filter.max_price : null,
+                p: pageIndex
             }
         })
-            .then(function(response){
-                sc.gridOptions.data = response.data.content;
-                sc.gridOptions.totalItems = response.data.totalElements;
+            .then(function (response) {
+                $scope.ProductsPage = response.data;
+                $scope.PaginationArray = $scope.generatePagesInd(1, $scope.ProductsPage.totalPages);
+            });
+    };
+
+    $scope.addToCart = function (productId) {
+        $http({
+            url: contextPath + '/api/v1/cart/add/' + productId,
+            method: 'GET'
+        })
+            .then(function (response) {
+                console.log('ok');
             });
     }
 
-    sc.updateTable = function () {
-        sc.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
-        // sc.gridApi.core.notifyDataChange(uiGridConstants.dataChange.COLUMN);
-        sc.gridApi.core.refresh();
+    $scope.generatePagesInd = function(startPage, endPage) {
+        let arr = [];
+        for (let i = startPage; i < endPage + 1; i++) {
+            arr.push(i);
+        }
+        return arr;
     }
 
-    sc.clearFilters = function () {
+    $scope.clearFilters = function () {
         $http.get(contextPath + '/api/v1/products')
             .then(function (response) {
                 if ($scope.filterProduct != null) {
                     $scope.filterProduct = null;
                 }
-                sc.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
+                $scope.fillTable();
             });
     };
 
-     sc.displayFilters = function() {
-         sc.isShow = !sc.isShow;
-     }
+    $scope.displayFilters = function() {
+        $scope.isShow = !$scope.isShow;
+    }
 
-    sc.gridOptions = {
-        paginationPageSizes: [5, 10, 20],
-        paginationPageSize: paginationOptions.pageSize,
-        enableColumnMenus:true,
-        useExternalPagination: true,
-        enableFiltering: false,
-        columnDefs: [
-            { field: 'name', name: 'Наименование' },
-            { field: 'price', name: 'Цена', type: 'number' }
-        ],
-        onRegisterApi: function(gridApi) {
-            sc.gridApi = gridApi;
-            gridApi.pagination.on.paginationChanged(
-                $scope,
-                function (newPage, pageSize) {
-                    paginationOptions.pageNumber = newPage;
-                    paginationOptions.pageSize = pageSize;
-                    sc.fillTable(newPage,pageSize)
-                });
-        }
-    };
-    i18nService.setCurrentLang('ru');
-    sc.fillTable(paginationOptions.pageNumber, paginationOptions.pageSize);
+    $scope.fillTable();
 });

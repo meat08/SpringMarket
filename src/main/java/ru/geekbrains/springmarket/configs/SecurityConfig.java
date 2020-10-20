@@ -21,11 +21,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/orders/**").authenticated()
+//                .antMatchers("/orders/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                .defaultSuccessUrl("/products", true);
+                .and()
+                .csrf().disable();
     }
 
     @Bean
