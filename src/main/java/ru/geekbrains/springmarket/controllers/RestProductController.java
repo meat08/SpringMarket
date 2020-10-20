@@ -3,11 +3,14 @@ package ru.geekbrains.springmarket.controllers;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
+import ru.geekbrains.springmarket.entities.Category;
 import ru.geekbrains.springmarket.entities.Product;
 import ru.geekbrains.springmarket.exceptions.ResourceNotFoundException;
+import ru.geekbrains.springmarket.services.CategoryService;
 import ru.geekbrains.springmarket.services.ProductService;
 import ru.geekbrains.springmarket.utils.ProductFilter;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -15,6 +18,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class RestProductController {
     private ProductService productService;
+    private CategoryService categoryService;
 
     @GetMapping(produces = "application/json")
     public Page<Product> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
@@ -26,6 +30,11 @@ public class RestProductController {
     @GetMapping(value = "/{id}", produces = "application/json")
     public Product getProductById(@PathVariable Long id) {
         return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unable to find product with id: " + id));
+    }
+
+    @GetMapping(value = "/categories", produces = "application/json")
+    public List<Category> categories() {
+        return categoryService.findAll();
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

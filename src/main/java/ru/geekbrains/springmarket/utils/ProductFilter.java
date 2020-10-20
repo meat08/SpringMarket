@@ -1,36 +1,40 @@
 package ru.geekbrains.springmarket.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.springframework.data.jpa.domain.Specification;
+import ru.geekbrains.springmarket.entities.Category;
 import ru.geekbrains.springmarket.entities.Product;
 import ru.geekbrains.springmarket.repositories.specifications.ProductSpecifications;
 
+import java.util.List;
 import java.util.Map;
 
 @Getter
 public class ProductFilter {
     private Specification<Product> spec;
-    private String filterDefinition;
 
+    @SneakyThrows
     public ProductFilter(Map<String, String> params) {
-        StringBuilder filterDefinitionBuilder = new StringBuilder();
         spec = Specification.where(null);
 
-        if (params.containsKey("name") && !params.get("name").isBlank()) {
-            String filterName = params.get("name");
+        if (params.containsKey("title") && !params.get("title").isBlank()) {
+            String filterName = params.get("title");
             spec = spec.and(ProductSpecifications.nameLike(filterName));
-            filterDefinitionBuilder.append("&name=").append(filterName);
         }
-        if (params.containsKey("min") && !params.get("min").isBlank()) {
-            Float minPrice = Float.parseFloat(params.get("min"));
+        if (params.containsKey("min_price") && !params.get("min_price").isBlank()) {
+            Float minPrice = Float.parseFloat(params.get("min_price"));
             spec = spec.and(ProductSpecifications.priceGreaterOrEqualsThan(minPrice));
-            filterDefinitionBuilder.append("&min=").append(minPrice);
         }
-        if (params.containsKey("max") && !params.get("max").isBlank()) {
-            Float maxPrice = Float.parseFloat(params.get("max"));
+        if (params.containsKey("max_price") && !params.get("max_price").isBlank()) {
+            Float maxPrice = Float.parseFloat(params.get("max_price"));
             spec = spec.and(ProductSpecifications.priceLesserOrEqualsThan(maxPrice));
-            filterDefinitionBuilder.append("&max=").append(maxPrice);
         }
-        filterDefinition = filterDefinitionBuilder.toString();
+        if (params.containsKey("category") && !params.get("category").isBlank()) {
+            ObjectMapper om = new ObjectMapper();
+            List<Category> categories = om.readValue(params.get("category"), om.getTypeFactory().constructCollectionType(List.class, Category.class));
+            spec = spec.and(ProductSpecifications.categoryIn(categories));
+        }
     }
 }
