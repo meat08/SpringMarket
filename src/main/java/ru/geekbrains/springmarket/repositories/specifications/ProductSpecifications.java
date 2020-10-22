@@ -5,7 +5,6 @@ import org.springframework.data.jpa.domain.Specification;
 import ru.geekbrains.springmarket.entities.Category;
 import ru.geekbrains.springmarket.entities.Product;
 
-import javax.persistence.criteria.*;
 import java.util.List;
 
 public class ProductSpecifications {
@@ -22,9 +21,6 @@ public class ProductSpecifications {
     }
 
     public static Specification<Product> categoryIn(List<Category> categories) {
-        return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> {
-            final Path<Category> rootCategory = root.get("category");
-            return rootCategory.in(categories);
-        };
+        return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> root.get("category").in(categories);
     }
 }
