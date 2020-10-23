@@ -20,7 +20,7 @@ CREATE TABLE users_roles (
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
-CREATE TABLE category (
+CREATE TABLE categories (
       id      BIGSERIAL PRIMARY KEY,
       title    VARCHAR(255) NOT NULL
 );
@@ -30,7 +30,7 @@ CREATE TABLE products (
     title        VARCHAR(255) NOT NULL,
     price       NUMERIC NOT NULL,
     category_id BIGSERIAL NOT NULL,
-    FOREIGN KEY (category_id) REFERENCES category(id)
+    FOREIGN KEY (category_id) REFERENCES categories(id)
 );
 
 CREATE TABLE orders (
@@ -51,7 +51,7 @@ CREATE TABLE order_items (
      quantity                INT
 );
 
-INSERT INTO category (id, title) VALUES
+INSERT INTO categories (id, title) VALUES
 (1, 'Фрукты'),
 (2, 'Мясо'),
 (3, 'Напитки'),
