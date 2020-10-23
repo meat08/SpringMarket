@@ -20,10 +20,17 @@ CREATE TABLE users_roles (
     FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
+CREATE TABLE category (
+      id      BIGSERIAL PRIMARY KEY,
+      title    VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE products (
-    id      BIGSERIAL PRIMARY KEY,
-    name    VARCHAR(255) NOT NULL,
-    price   NUMERIC NOT NULL
+    id          BIGSERIAL PRIMARY KEY,
+    title        VARCHAR(255) NOT NULL,
+    price       NUMERIC NOT NULL,
+    category_id BIGSERIAL NOT NULL,
+    FOREIGN KEY (category_id) REFERENCES category(id)
 );
 
 CREATE TABLE orders (
@@ -44,27 +51,35 @@ CREATE TABLE order_items (
      quantity                INT
 );
 
-INSERT INTO products (name, price) VALUES
-('Apple', 5.40),
-('Orange', 12.50),
-('Bread', 5.40),
-('Melon', 15.40),
-('Beef', 200.00),
-('Pork', 190.50),
-('Chicken', 160.20),
-('Coffee', 260.30),
-('Tea', 180.50),
-('Juice', 80.60),
-('Soap-powder', 50.13),
-('Soap', 22.50),
-('Toothpaste', 25.40),
-('Toothbrush', 15.10),
-('T-shirt', 220.00),
-('Shorts', 180.30),
-('Pants', 240.00),
-('Shoes', 260.80),
-('Sneakers', 380.50),
-('Pistol', 1180.20);
+INSERT INTO category (id, title) VALUES
+(1, 'Фрукты'),
+(2, 'Мясо'),
+(3, 'Напитки'),
+(4, 'Гигиена'),
+(5, 'Одежда'),
+(6, 'Оружие');
+
+INSERT INTO products (title, price, category_id) VALUES
+('Яблоко', 5.40, 1),
+('Апельсин', 12.50, 1),
+('Хлеб', 5.40, 1),
+('Арбуз', 15.40, 1),
+('Говядина', 200.00, 2),
+('Свинина', 190.50, 2),
+('Курица', 160.20, 2),
+('Кофе', 260.30, 3),
+('Чай', 180.50, 3),
+('Сок', 80.60, 3),
+('Стиральный порошок', 50.13, 4),
+('Мыло', 22.50, 4),
+('Зубная паста', 25.40, 4),
+('Зубная щетка', 15.10, 4),
+('Футболка', 220.00, 5),
+('Шорты', 180.30, 5),
+('Штаны', 240.00, 5),
+('Туфли', 260.80, 5),
+('Кроссовки', 380.50, 5),
+('BFG', 1180.20, 6);
 
 INSERT INTO roles (name)
 VALUES

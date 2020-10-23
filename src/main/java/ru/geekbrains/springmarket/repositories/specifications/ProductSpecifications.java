@@ -2,7 +2,10 @@ package ru.geekbrains.springmarket.repositories.specifications;
 
 
 import org.springframework.data.jpa.domain.Specification;
+import ru.geekbrains.springmarket.entities.Category;
 import ru.geekbrains.springmarket.entities.Product;
+
+import java.util.List;
 
 public class ProductSpecifications {
     public static Specification<Product> priceGreaterOrEqualsThan(Float minPrice) {
@@ -14,6 +17,10 @@ public class ProductSpecifications {
     }
 
     public static Specification<Product> nameLike(String namePart) {
-        return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), String.format("%%%s%%", namePart.toLowerCase()));
+        return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("title")), String.format("%%%s%%", namePart.toLowerCase()));
+    }
+
+    public static Specification<Product> categoryIn(List<Category> categories) {
+        return (Specification<Product>) (root, criteriaQuery, criteriaBuilder) -> root.get("category").in(categories);
     }
 }
