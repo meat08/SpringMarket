@@ -2,39 +2,35 @@ package ru.geekbrains.springmarket.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
-import ru.geekbrains.springmarket.entities.Category;
 import ru.geekbrains.springmarket.entities.Product;
+import ru.geekbrains.springmarket.entities.dto.ProductDto;
 import ru.geekbrains.springmarket.exceptions.ResourceNotFoundException;
-import ru.geekbrains.springmarket.services.CategoryService;
 import ru.geekbrains.springmarket.services.ProductService;
 import ru.geekbrains.springmarket.utils.ProductFilter;
 
-import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
 @AllArgsConstructor
-public class RestProductController {
+public class ProductController {
     private ProductService productService;
-    private CategoryService categoryService;
 
     @GetMapping(produces = "application/json")
-    public Page<Product> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
+    public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
                                         @RequestParam Map<String, String> params) {
         ProductFilter productFilter = new ProductFilter(params);
-        return productService.findAll(productFilter.getSpec(), page - 1, 5);
+        Page<Product> content =productService.findAll(productFilter.getSpec(), page - 1, 5);
+        Page<ProductDto> out = new PageImpl<>(content.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), content.getPageable(), content.getTotalElements());
+        return out;
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
     public Product getProductById(@PathVariable Long id) {
         return productService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Unable to find product with id: " + id));
-    }
-
-    @GetMapping(value = "/categories", produces = "application/json")
-    public List<Category> categories() {
-        return categoryService.findAll();
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")

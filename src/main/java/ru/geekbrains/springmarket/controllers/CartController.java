@@ -11,7 +11,7 @@ import ru.geekbrains.springmarket.utils.Cart;
 @RestController
 @RequestMapping("/api/v1/cart")
 @AllArgsConstructor
-public class RestCartController {
+public class CartController {
     private Cart cart;
 
     @GetMapping("/add/{product_id}")

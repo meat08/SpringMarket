@@ -40,6 +40,7 @@
 
         <tr ng-repeat="p in ProductsPage.content">
             <td>{{p.title}}</td>
+            <td>{{p.categoryTitle}}</td>
             <td>{{p.price}}</td>
             <td>
                 <button class="btn btn-success" ng-click="addToCart(p.id)">Добавить в корзину</button>

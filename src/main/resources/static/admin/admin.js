@@ -11,7 +11,7 @@ angular.module('app').controller('adminController', function ($scope, $http) {
 
     $scope.fillCategories = function () {
         $http({
-            url: contextPath + '/api/v1/products/categories',
+            url: contextPath + '/api/v1/categories',
             method: 'GET'
         })
             .then(function (response) {
