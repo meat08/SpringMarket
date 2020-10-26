@@ -26,6 +26,18 @@
             .when('/cart', {
                 templateUrl: 'cart/cart.html',
                 controller: 'cartController'
+            })
+            .when('/order_form', {
+                templateUrl: 'order_form/order_form.html',
+                controller: 'orderFormController'
+            })
+            .when('/order', {
+                templateUrl: 'order/order.html',
+                controller: 'orderController'
+            })
+            .when('/registration', {
+                templateUrl: 'registration/registration.html',
+                controller: 'registrationController'
             });
 
         $httpProvider.interceptors.push(function ($q, $location) {
