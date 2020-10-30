@@ -1,0 +1,28 @@
+<div>
+    <h3>Регистрация</h3>
+    <form ng-submit="submitCreateNewUser()">
+        <div class="form-group col-md-6">
+            <label for="username">Имя пользователя</label>
+            <input class="form-control" type="text" ng-model="newUser.username" id="username" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="password">Пароль</label>
+            <input class="form-control" type="password" ng-model="newUser.password" id="password" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="email">Email</label>
+            <input class="form-control" type="email" ng-model="newUser.email" id="email" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="phone">Номер телефона</label>
+            <input class="form-control" type="tel" ng-model="newUser.phoneNumber" id="phone" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="address">Адрес</label>
+            <input class="form-control" type="text" ng-model="newUser.address" id="address" required="">
+        </div>
+        <div>
+            <button class="btn btn-success" type="submit">Зарегистрироваться</button>
+        </div>
+    </form>
+</div>
