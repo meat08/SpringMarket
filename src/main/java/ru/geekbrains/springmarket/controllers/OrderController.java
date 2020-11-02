@@ -24,8 +24,7 @@ public class OrderController {
 
     @GetMapping
     public List<OrderDto> getOrdersByUser(Principal principal) {
-        User user = userService.findByUsername(principal.getName());
-        return orderService.findByUser(user).stream().map(OrderDto::new).collect(Collectors.toList());
+        return orderService.findByUsername(principal.getName()).stream().map(OrderDto::new).collect(Collectors.toList());
     }
 
     @PostMapping("/create")

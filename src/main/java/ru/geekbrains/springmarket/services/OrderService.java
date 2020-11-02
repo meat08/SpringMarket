@@ -17,8 +17,8 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public List<Order> findByUser(User user) {
-        return orderRepository.findOrdersByUserEquals(user);
+    public List<Order> findByUsername(String username) {
+        return orderRepository.findAllOrdersByUsername(username);
     }
 
     public void save(Order order) {
