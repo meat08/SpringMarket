@@ -1,0 +1,38 @@
+<div>
+    <h3>Профиль пользователя </h3>
+    <form ng-submit="submitEditProfile()">
+        <div class="form-group col-md-6">
+            <label for="firstName">Имя</label>
+            <input class="form-control" ng-readonly="!isEdit" type="text" ng-model="profile.firstName" value="profile.firstName" id="firstName" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="lastName">Фамилия</label>
+            <input class="form-control" ng-readonly="!isEdit" type="text" ng-model="profile.lastName" value="profile.lastName" id="lastName" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="email">Email</label>
+            <input class="form-control" ng-readonly="!isEdit" type="email" ng-model="profile.email" value="profile.email" id="email" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="birthday">Год рождения</label>
+            <input class="form-control" ng-readonly="!isEdit" type="number" ng-model="profile.birthday" value="profile.birthday" id="birthday" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="phone">Номер телефона</label>
+            <input class="form-control" ng-readonly="!isEdit" type="tel" ng-model="profile.phoneNumber" value="profile.phoneNumber" id="phone" required="">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="address">Адрес</label>
+            <input class="form-control" ng-readonly="!isEdit" type="text" ng-model="profile.address" value="profile.address" id="address" required="">
+        </div>
+        <div ng-show="isEdit" class="form-group col-md-6">
+            <label for="password">Введите текущий пароль</label>
+            <input class="form-control" type="password" ng-model="profile.password" id="password" required="">
+        </div>
+        <div>
+            <button ng-show="isEdit" class="btn btn-success" type="submit">Сохранить</button>
+            <button ng-show="isEdit" class="btn btn-danger" ng-click="editProfile()">Отмена</button>
+        </div>
+    </form>
+    <button ng-show="!isEdit" class="btn btn-success" ng-click="editProfile()">Редактировать</button>
+</div>

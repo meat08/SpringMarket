@@ -20,15 +20,6 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "email")
-    private String email;
-
-    @Column(name = "phone_number")
-    private Long phoneNumber;
-
-    @Column(name = "address")
-    private String address;
-
     @ManyToMany
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
