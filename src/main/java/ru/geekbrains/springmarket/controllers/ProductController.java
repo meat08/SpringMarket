@@ -1,6 +1,6 @@
 package ru.geekbrains.springmarket.controllers;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
@@ -15,17 +15,16 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
     @GetMapping(produces = "application/json")
     public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
                                         @RequestParam Map<String, String> params) {
         ProductFilter productFilter = new ProductFilter(params);
         Page<Product> content =productService.findAll(productFilter.getSpec(), page - 1, 5);
-        Page<ProductDto> out = new PageImpl<>(content.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), content.getPageable(), content.getTotalElements());
-        return out;
+        return new PageImpl<>(content.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), content.getPageable(), content.getTotalElements());
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")

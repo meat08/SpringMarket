@@ -1,6 +1,6 @@
 package ru.geekbrains.springmarket.controllers;
 
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,9 +10,9 @@ import ru.geekbrains.springmarket.utils.Cart;
 
 @RestController
 @RequestMapping("/api/v1/cart")
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CartController {
-    private Cart cart;
+    private final Cart cart;
 
     @GetMapping("/add/{product_id}")
     public void addToCart(@PathVariable(name = "product_id") Long productId) {
