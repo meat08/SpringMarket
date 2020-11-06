@@ -14,7 +14,6 @@ import ru.geekbrains.springmarket.services.UserService;
 
 import java.security.Principal;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/profiles")
