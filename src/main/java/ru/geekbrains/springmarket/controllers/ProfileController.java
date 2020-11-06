@@ -25,8 +25,9 @@ public class ProfileController {
     private final BCryptPasswordEncoder passwordEncoder;
 
     @GetMapping
-    public Optional<ProfileDto> getProfileByUser(Principal principal) {
-        return profileService.findByUsername(principal.getName()).stream().map(ProfileDto::new).findAny();
+    public ProfileDto getProfileByUser(Principal principal) {
+        return profileService.findByUsername(principal.getName()).map(ProfileDto::new)
+                .orElseThrow(() -> new ResourceNotFoundException("Unable to find profile for username: " + principal.getName()));
     }
 
     @PostMapping
