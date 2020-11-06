@@ -1,4 +1,4 @@
-angular.module('app').controller('authController', function ($scope, $http, $localStorage, $window) {
+angular.module('app').controller('authController', function ($scope, $http, $localStorage, $location) {
     const contextPath = 'http://localhost:8180/market';
 
     $scope.tryToAuth = function () {
@@ -43,6 +43,6 @@ angular.module('app').controller('authController', function ($scope, $http, $loc
     };
 
     $scope.registration = function () {
-        $window.location.href = '#!/registration';
+        $location.path('/registration');
     }
 });

@@ -4,7 +4,7 @@
     angular
         .module('app', ['ngRoute', 'ngStorage', 'ui.grid','ui.grid.pagination'])
         .config(config)
-        .run();
+        .run(run);
 
     function config($routeProvider, $httpProvider) {
         $routeProvider
@@ -34,6 +34,10 @@
             .when('/order', {
                 templateUrl: 'order/order.html',
                 controller: 'orderController'
+            })
+            .when('/profile', {
+                templateUrl: 'profile/profile.html',
+                controller: 'profileController'
             })
             .when('/registration', {
                 templateUrl: 'registration/registration.html',

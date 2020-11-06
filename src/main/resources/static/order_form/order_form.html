@@ -1,5 +1,5 @@
 <div>
-    <h3>Заказы</h3>
+    <h3>Оформление заказа</h3>
     <table class="table table-hover" cellpadding="0" cellspacing="0">
         <tr>
             <td>Название</td>
@@ -20,18 +20,18 @@
         </tr>
         </tbody>
     </table>
-    <form novalidate ng-submit="submitCreateNewOrder()">
+    <form ng-submit="submitCreateNewOrder()">
         <div class="form-group col-md-6">
             <label for="customerName">Имя</label>
-            <input class="form-control" type="text" ng-model="newOrder.customerName" id="customerName">
+            <input class="form-control" type="text" ng-model="profileForm.customerName" value="profileForm.customerName" id="customerName" required="">
         </div>
         <div class="form-group col-md-6">
             <label for="customerPhone">Номер телефона</label>
-            <input class="form-control" type="tel" ng-model="newOrder.customerPhone" id="customerPhone">
+            <input class="form-control" type="tel" ng-model="profileForm.phoneNumber" value="profileForm.phoneNumber" id="customerPhone" required="">
         </div>
         <div class="form-group col-md-6">
             <label for="customerAddress">Адрес доставки</label>
-            <input class="form-control" type="text" ng-model="newOrder.customerAddress" id="customerAddress">
+            <input class="form-control" type="text" ng-model="profileForm.address" value="profileForm.address" id="customerAddress" required="">
         </div>
         <div>
             <button class="btn btn-success" type="submit">Оформить</button>

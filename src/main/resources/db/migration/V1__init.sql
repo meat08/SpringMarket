@@ -1,10 +1,19 @@
 CREATE TABLE users (
     id              BIGSERIAL PRIMARY KEY,
     username        VARCHAR(30) NOT NULL,
-    password        VARCHAR(255) NOT NULL,
+    password        VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE user_profiles (
+    id              BIGSERIAL PRIMARY KEY,
+    user_id         BIGSERIAL NOT NULL,
+    first_name      VARCHAR(30) NOT NULL,
+    last_name       VARCHAR(30) NOT NULL,
     email           VARCHAR(50) UNIQUE,
+    birthday        INT NOT NULL,
     phone_number    BIGINT,
-    address         VARCHAR(255)
+    address         VARCHAR(255),
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE roles (
@@ -86,8 +95,12 @@ VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN');
 
-INSERT INTO users (username, password, email, phone_number, address)
+INSERT INTO users (username, password)
 VALUES
-('user1', '$2a$04$Fx/SX9.BAvtPlMyIIqqFx.hLY2Xp8nnhpzvEEVINvVpwIPbA3v/.i', 'user1@example.com', '79991234567', 'Earth');
+('user1', '$2a$10$KTAfCx9c84nYy010lfkX8.lYpzojGKBCotQgBuT0vIqS81uuUNn5S');
+
+INSERT INTO user_profiles (user_id, first_name, last_name, email, birthday, phone_number, address)
+VALUES
+(1, 'John', 'Wick', 'jw@continental.com', 1990, 17771234567, 'Continental');
 
 INSERT INTO users_roles(user_id, role_id) VALUES (1, 1);
