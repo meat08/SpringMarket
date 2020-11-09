@@ -43,7 +43,7 @@
             <td>{{p.categoryTitle}}</td>
             <td>{{p.price}}</td>
             <td>
-                <button class="btn btn-success" ng-click="addToCart(p.id)">Добавить в корзину</button>
+                <button ng-disabled="!isUserLoggedIn()" class="btn btn-success" ng-click="addToCart(p.id)" title="{{ isUserLoggedIn() ? 'Добавить в корзину' : 'Пожалуйста войдите в свой аккаунт' }}">Добавить в корзину</button>
             </td>
         </tr>
         </tbody>

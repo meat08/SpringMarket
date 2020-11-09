@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngStorage', 'ui.grid','ui.grid.pagination'])
+        .module('app', ['ngRoute', 'ngStorage', 'angular-jwt'])
         .config(config)
         .run(run);
 
@@ -43,34 +43,18 @@
                 templateUrl: 'registration/registration.html',
                 controller: 'registrationController'
             });
-
-        $httpProvider.interceptors.push(function ($q, $location) {
-            return {
-                'responseError': function (rejection, $localStorage, $http) {
-                    var defer = $q.defer();
-                    if (rejection.status == 401 || rejection.status == 403) {
-                        console.log('error: 401-403');
-                        $location.path('/auth');
-                        if (!(localStorage.getItem("localUser") === null)) {
-                            delete $localStorage.currentUser;
-                            $http.defaults.headers.common.Authorization = '';
-                            console.log('zxc');
-                        }
-                        console.log(rejection.data);
-                        var answer = JSON.parse(rejection.data);
-                        console.log(answer);
-                        // window.alert(answer.message);
-                    }
-                    defer.reject(rejection);
-                    return defer.promise;
-                }
-            };
-        });
     }
 
-    function run($rootScope, $http, $localStorage) {
+    function run($rootScope, $http, $location, $localStorage) {
         if ($localStorage.currentUser) {
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }
+        $rootScope.$on('$locationChangeStart', function (event, next, current) {
+            var publicPages = ['/auth', '/', '/store'];
+            var restrictedPage = publicPages.indexOf($location.path()) === -1;
+            if (restrictedPage && !$localStorage.currentUser) {
+                $location.path('/auth');
+            }
+        });
     }
 })();

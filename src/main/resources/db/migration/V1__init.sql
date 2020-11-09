@@ -97,10 +97,16 @@ VALUES
 
 INSERT INTO users (username, password)
 VALUES
-('user1', '$2a$10$KTAfCx9c84nYy010lfkX8.lYpzojGKBCotQgBuT0vIqS81uuUNn5S');
+('user1', '$2a$10$KTAfCx9c84nYy010lfkX8.lYpzojGKBCotQgBuT0vIqS81uuUNn5S'),
+('user2', '$2a$10$KTAfCx9c84nYy010lfkX8.lYpzojGKBCotQgBuT0vIqS81uuUNn5S');
 
 INSERT INTO user_profiles (user_id, first_name, last_name, email, birthday, phone_number, address)
 VALUES
-(1, 'John', 'Wick', 'jw@continental.com', 1990, 17771234567, 'Continental');
+(1, 'John', 'Wick', 'jw@continental.com', 1990, 17771234567, 'Continental'),
+(2, 'Bob', 'Marley', 'bm@jamaica.com', 1945, 17771234568, 'Earth');
 
-INSERT INTO users_roles(user_id, role_id) VALUES (1, 1);
+INSERT INTO users_roles(user_id, role_id)
+VALUES
+(1, 1),
+(1, 2),
+(2, 1);

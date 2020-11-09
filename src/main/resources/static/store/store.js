@@ -1,4 +1,4 @@
-angular.module('app').controller('storeController', function ($scope, $http) {
+angular.module('app').controller('storeController', function ($scope, $http, $localStorage) {
     const contextPath = 'http://localhost:8180/market';
 
     $scope.fillTable = function (pageIndex = 1) {
@@ -38,6 +38,10 @@ angular.module('app').controller('storeController', function ($scope, $http) {
                 console.log('ok');
             });
     }
+
+    $scope.isUserLoggedIn = function () {
+        return !!$localStorage.currentUser;
+    };
 
     $scope.generatePagesInd = function(startPage, endPage) {
         let arr = [];
