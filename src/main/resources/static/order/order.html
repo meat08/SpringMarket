@@ -12,7 +12,7 @@
         </tr>
         <tbody>
 
-        <tr ng-repeat="o in OrdersPage">
+        <tr ng-repeat="o in OrdersPage.content">
             <td>{{o.id}}</td>
             <td>{{o.user}}</td>
             <td>{{o.recipientName}}</td>
@@ -23,11 +23,10 @@
         </tbody>
     </table>
 
-    <nav aria-label="Page navigation">
-        <ul class="pagination">
-            <li class="page-item" ng-repeat="pageIndex in PaginationArray">
-                <a class="page-link" ng-click="fillTable(pageIndex)">{{pageIndex}}</a>
-            </li>
-        </ul>
-    </nav>
+    <ul uib-pagination total-items="totalItems" items-per-page="itemsPerPage"
+        ng-model="currentPage" max-size="maxSize" class="pagination-sm"
+        boundary-links="true" force-ellipses="true"
+        previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"
+        ng-change="fillOrder(currentPage)" ng-show="pDisabled"
+    ></ul>
 </div>

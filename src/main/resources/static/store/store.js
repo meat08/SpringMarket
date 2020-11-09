@@ -9,13 +9,14 @@ angular.module('app').controller('storeController', function ($scope, $http, $lo
                 title: $scope.filter ? $scope.filter.title : null,
                 min_price: $scope.filter ? $scope.filter.min_price : null,
                 max_price: $scope.filter ? $scope.filter.max_price : null,
-                category: $scope.filter ? [$scope.filter.category] : null,
+                category: $scope.filter && !angular.isUndefined($scope.filter.category) ? [$scope.filter.category] : null,
                 p: pageIndex
             }
         })
             .then(function (response) {
                 $scope.ProductsPage = response.data;
-                $scope.PaginationArray = $scope.generatePagesInd(1, $scope.ProductsPage.totalPages);
+                $scope.generatePagination(pageIndex, $scope.ProductsPage.totalPages);
+                $scope.alerts = [];
             });
     };
 
@@ -35,20 +36,40 @@ angular.module('app').controller('storeController', function ($scope, $http, $lo
             method: 'GET'
         })
             .then(function (response) {
-                console.log('ok');
+                $scope.addCartAlert();
             });
     }
+
+    $scope.addCartAlert = function() {
+        $scope.alerts.push({type: 'success', msg: 'Товар добавлен в корзину!'});
+    };
+
+    $scope.closeAlert = function(index) {
+        $scope.alerts.splice(index, 1);
+    };
 
     $scope.isUserLoggedIn = function () {
         return !!$localStorage.currentUser;
     };
 
-    $scope.generatePagesInd = function(startPage, endPage) {
-        let arr = [];
-        for (let i = startPage; i < endPage + 1; i++) {
-            arr.push(i);
-        }
-        return arr;
+    $scope.generatePagination = function(page, totalPage) {
+        $scope.pDisabled = totalPage > 1;
+        $scope.totalItems = totalPage * 5;
+        $scope.currentPage = page;
+        $scope.maxSize = 5;
+        $scope.itemsPerPage = 5;
+    }
+
+    $scope.openFilter = function() {
+        $scope.isFilterOpen = true;
+        document.getElementById("filter").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+    }
+
+    $scope.closeFilter = function() {
+        $scope.isFilterOpen = false;
+        document.getElementById("filter").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
     }
 
     $scope.clearFilters = function () {
@@ -62,8 +83,12 @@ angular.module('app').controller('storeController', function ($scope, $http, $lo
     };
 
     $scope.displayFilters = function() {
-        $scope.isShow = !$scope.isShow;
-    }
+        if ($scope.isFilterOpen) {
+            $scope.closeFilter();
+        } else {
+            $scope.openFilter();
+        }
+    };
 
     $scope.fillTable();
     $scope.fillCategories();

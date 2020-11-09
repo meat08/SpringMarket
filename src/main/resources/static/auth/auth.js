@@ -51,7 +51,7 @@ angular.module('app').controller('authController', function ($scope, $http, $loc
 
     $scope.isUserRole = function(role) {
         $scope.getUserRole();
-        for (var i = 0; i < $scope.userRoles.length; i++) {
+        for (let i = 0; i < $scope.userRoles.length; i++) {
             if (angular.equals(role, $scope.userRoles[i])) {
                 return true;
             }

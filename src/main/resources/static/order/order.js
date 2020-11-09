@@ -11,8 +11,17 @@ angular.module('app').controller('orderController', function ($scope, $http) {
         })
             .then(function (response) {
                 $scope.OrdersPage = response.data;
+                $scope.generatePagination(pageIndex, $scope.OrdersPage.totalPages);
             });
     };
+
+    $scope.generatePagination = function(page, totalPage) {
+        $scope.pDisabled = totalPage > 1;
+        $scope.totalItems = totalPage * 5;
+        $scope.currentPage = page;
+        $scope.maxSize = 5;
+        $scope.itemsPerPage = 5;
+    }
 
     $scope.fillOrder();
 });

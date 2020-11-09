@@ -23,7 +23,6 @@ angular.module('app').controller('orderFormController', function ($scope, $http,
     };
 
     $scope.submitCreateNewOrder = function () {
-        console.log($scope.profileForm);
         $http({
             url: contextPath + '/api/v1/orders/create',
             method: 'POST',

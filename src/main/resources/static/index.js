@@ -2,7 +2,7 @@
     'use strict';
 
     angular
-        .module('app', ['ngRoute', 'ngStorage', 'angular-jwt'])
+        .module('app', ['ngRoute', 'ngStorage', 'angular-jwt', 'ngAnimate', 'ngSanitize', 'ui.bootstrap'])
         .config(config)
         .run(run);
 

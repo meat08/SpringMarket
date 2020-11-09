@@ -2,6 +2,8 @@ package ru.geekbrains.springmarket.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springmarket.entities.Order;
 import ru.geekbrains.springmarket.entities.User;
@@ -11,7 +13,6 @@ import ru.geekbrains.springmarket.services.UserService;
 import ru.geekbrains.springmarket.utils.Cart;
 
 import java.security.Principal;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
@@ -23,8 +24,10 @@ public class OrderController {
     private final UserService userService;
 
     @GetMapping
-    public List<OrderDto> getOrdersByUser(Principal principal) {
-        return orderService.findByUsername(principal.getName()).stream().map(OrderDto::new).collect(Collectors.toList());
+    public Page<OrderDto> getOrdersByUser(Principal principal,
+                                          @RequestParam(defaultValue = "1", name = "p") Integer page) {
+        Page<Order> content = orderService.findByUsername(principal.getName(), page - 1, 5);
+        return new PageImpl<>(content.getContent().stream().map(OrderDto::new).collect(Collectors.toList()), content.getPageable(), content.getTotalElements());
     }
 
     @PostMapping("/create")
