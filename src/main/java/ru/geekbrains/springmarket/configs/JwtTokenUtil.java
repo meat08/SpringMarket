@@ -8,10 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,31 +26,22 @@ public class JwtTokenUtil {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
-//    private Date getExpirationDateFromToken(String token) {
-//        return getClaimFromToken(token, Claims::getExpiration);
-//    }
-//
-//    public boolean validateToken(String token) {
-//        return !isTokenExpired(token);
-//    }
-//
-//    public boolean validateToken(String token, UserDetails userDetails) {
-//        String username = getUsernameFromToken(token);
-//        return Objects.equals(username, userDetails.getUsername()) && !isTokenExpired(token);
-//    }
+    public List<String> getRoles(String token) {
+        return getClaimFromToken(token, (Function<Claims, List<String>>) claims -> claims.get("roles", List.class));
+    }
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
         List<String> rolesList = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.toList());
-        claims.put("role", rolesList);
+        claims.put("roles", rolesList);
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         Date issuedDate = new Date();
-        Date expiredDate = new Date(issuedDate.getTime() + 60 * 60 * 1000);
+        Date expiredDate = new Date(issuedDate.getTime() + 60 * 60 * 1000); // todo
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
@@ -69,9 +57,4 @@ public class JwtTokenUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
-//
-//    private boolean isTokenExpired(String token) {
-//        Date date = getExpirationDateFromToken(token);
-//        return date != null && date.before(new Date());
-//    }
 }

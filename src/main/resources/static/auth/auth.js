@@ -46,7 +46,7 @@ angular.module('app').controller('authController', function ($scope, $http, $loc
 
     $scope.getUserRole = function() {
         tokenPayload = jwtHelper.decodeToken($localStorage.currentUser.token);
-        $scope.userRoles = tokenPayload.role;
+        $scope.userRoles = tokenPayload.roles;
     };
 
     $scope.isUserRole = function(role) {
