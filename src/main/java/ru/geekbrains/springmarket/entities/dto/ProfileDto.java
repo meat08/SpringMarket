@@ -1,10 +1,12 @@
 package ru.geekbrains.springmarket.entities.dto;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import ru.geekbrains.springmarket.entities.Profile;
 
 
 @Data
+@NoArgsConstructor
 public class ProfileDto {
 
     private String username;

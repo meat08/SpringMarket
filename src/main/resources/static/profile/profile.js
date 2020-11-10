@@ -18,26 +18,31 @@ angular.module('app').controller('profileController', function ($scope, $http) {
     $scope.submitEditProfile = function () {
         $http({
             url: contextPath + '/api/v1/profiles',
-            method: 'POST',
+            method: 'PUT',
+            data: $scope.profile,
             params: {
-                firstName: $scope.profile ? $scope.profile.firstName : null,
-                lastName: $scope.profile ? $scope.profile.lastName : null,
-                email: $scope.profile ? $scope.profile.email : null,
-                birthday: $scope.profile ? $scope.profile.birthday : null,
-                phoneNumber: $scope.profile ? $scope.profile.phoneNumber : null,
-                address: $scope.profile ? $scope.profile.address : null,
-                password: $scope.profile ? $scope.profile.password : null
+                // firstName: $scope.profile ? $scope.profile.firstName : null,
+                // lastName: $scope.profile ? $scope.profile.lastName : null,
+                // email: $scope.profile ? $scope.profile.email : null,
+                // birthday: $scope.profile ? $scope.profile.birthday : null,
+                // phoneNumber: $scope.profile ? $scope.profile.phoneNumber : null,
+                // address: $scope.profile ? $scope.profile.address : null,
+                password: $scope.password ? $scope.password : null
+            }
+        })
+        .catch(function (error) {
+            if (error.status === 401) {
+                alert("Неверный пароль!");
             }
         })
         .then(function (response) {
-            if (response.data === 'UNAUTHORIZED') {
-                alert("Неверный пароль!");
-                return;
+            if (!angular.isUndefined(response)) {
+                $scope.profile = null;
+                $scope.password = null;
+                $scope.getProfile();
+                $scope.editProfile();
             }
-            $scope.profile = null;
-            $scope.getProfile();
-            $scope.editProfile();
-        });
+        })
     };
 
     $scope.getProfile();

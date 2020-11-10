@@ -4,10 +4,12 @@ package ru.geekbrains.springmarket.controllers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springmarket.entities.Profile;
+import ru.geekbrains.springmarket.entities.User;
 import ru.geekbrains.springmarket.entities.dto.ProfileDto;
+import ru.geekbrains.springmarket.exceptions.MarketError;
 import ru.geekbrains.springmarket.exceptions.ResourceNotFoundException;
 import ru.geekbrains.springmarket.services.ProfileService;
 import ru.geekbrains.springmarket.services.UserService;
@@ -21,7 +23,7 @@ import java.util.Map;
 public class ProfileController {
     private final ProfileService profileService;
     private final UserService userService;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping
     public ProfileDto getProfileByUser(Principal principal) {
@@ -29,18 +31,20 @@ public class ProfileController {
                 .orElseThrow(() -> new ResourceNotFoundException("Unable to find profile for username: " + principal.getName()));
     }
 
-    @PostMapping
-    public ResponseEntity<?> updateProfile(Principal principal, @RequestParam Map<String, String> params) {
-        if (!passwordEncoder.matches(params.get("password"), userService.findByUsername(principal.getName()).getPassword())) {
-            return ResponseEntity.ok(HttpStatus.UNAUTHORIZED); //TODO переделать на нормальный UNAUTHORIZED
-        }
+    @PutMapping
+    public ResponseEntity<?> updateProfile(Principal principal, @RequestBody ProfileDto profileDto, @RequestParam Map<String, String> params) {
+        User user = userService.findByUsername(principal.getName())
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("User '%s' not found", principal.getName())));
+        if (!passwordEncoder.matches(params.get("password"), user.getPassword())) {
+            return new ResponseEntity<>(new MarketError(HttpStatus.UNAUTHORIZED.value(), "Wrong password for user " + user.getUsername()), HttpStatus.UNAUTHORIZED);
+       }
         Profile profile = profileService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("Unable to find profile for username: " + principal.getName()));
-        profile.setFirstName(params.get("firstName"));
-        profile.setLastName(params.get("lastName"));
-        profile.setEmail(params.get("email"));
-        profile.setBirthday(Integer.valueOf(params.get("birthday")));
-        profile.setPhoneNumber(Long.valueOf(params.get("phoneNumber")));
-        profile.setAddress(params.get("address"));
+        profile.setFirstName(profileDto.getFirstName());
+        profile.setLastName(profileDto.getLastName());
+        profile.setEmail(profileDto.getEmail());
+        profile.setBirthday(profileDto.getBirthday());
+        profile.setPhoneNumber(profileDto.getPhoneNumber());
+        profile.setAddress(profileDto.getAddress());
         profileService.save(profile);
         return ResponseEntity.ok(HttpStatus.OK);
     }

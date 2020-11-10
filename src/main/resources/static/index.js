@@ -50,7 +50,7 @@
             $http.defaults.headers.common.Authorization = 'Bearer ' + $localStorage.currentUser.token;
         }
         $rootScope.$on('$locationChangeStart', function (event, next, current) {
-            let publicPages = ['/auth', '/', '/store'];
+            let publicPages = ['/auth', '/', '/store', '/registration'];
             let restrictedPage = publicPages.indexOf($location.path()) === -1;
             if (restrictedPage && !$localStorage.currentUser) {
                 $location.path('/auth');

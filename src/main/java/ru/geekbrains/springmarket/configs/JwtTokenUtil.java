@@ -26,6 +26,7 @@ public class JwtTokenUtil {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
+    @SuppressWarnings("unchecked")
     public List<String> getRoles(String token) {
         return getClaimFromToken(token, (Function<Claims, List<String>>) claims -> claims.get("roles", List.class));
     }
@@ -41,7 +42,7 @@ public class JwtTokenUtil {
 
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         Date issuedDate = new Date();
-        Date expiredDate = new Date(issuedDate.getTime() + 60 * 60 * 1000); // todo
+        Date expiredDate = new Date(issuedDate.getTime() + 60 * 60 * 1000);
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
