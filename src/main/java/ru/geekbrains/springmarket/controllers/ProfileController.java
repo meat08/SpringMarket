@@ -32,7 +32,7 @@ public class ProfileController {
     @PostMapping
     public ResponseEntity<?> updateProfile(Principal principal, @RequestParam Map<String, String> params) {
         if (!passwordEncoder.matches(params.get("password"), userService.findByUsername(principal.getName()).getPassword())) {
-            return ResponseEntity.ok(HttpStatus.UNAUTHORIZED); //костыль, т.к. index.js перехватывает 401 и 403
+            return ResponseEntity.ok(HttpStatus.UNAUTHORIZED); //TODO переделать на нормальный UNAUTHORIZED
         }
         Profile profile = profileService.findByUsername(principal.getName()).orElseThrow(() -> new ResourceNotFoundException("Unable to find profile for username: " + principal.getName()));
         profile.setFirstName(params.get("firstName"));
