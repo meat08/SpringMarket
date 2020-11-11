@@ -26,6 +26,7 @@
 </div>
 <div id="main">
     <br>
+<!--    TODO пофиксить всплывающие уведомления (двигают таблицу) -->
     <div uib-alert ng-repeat="alert in alerts" ng-class="'alert-' + (alert.type || 'warning')" dismiss-on-timeout="1000" close="closeAlert($index)">{{alert.msg}}</div>
     <button class="btn btn-success" type="button" ng-click="displayFilters()">Фильтры</button>
     <button class="btn btn-success" ng-click="fillTable()">&#8635;</button>
