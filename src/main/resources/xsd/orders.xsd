@@ -1,0 +1,41 @@
+<xs:schema
+        xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://localhost/market/orders"
+        targetNamespace="http://localhost/market/orders" elementFormDefault="qualified">
+
+    <xs:element name="getOrderRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="username" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getOrderResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="order" type="tns:orderSoap" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="orderSoap">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="username" type="xs:string"/>
+            <xs:element name="price" type="xs:float"/>
+            <xs:element name="recipientName" type="xs:string"/>
+            <xs:element name="recipientPhone" type="xs:long"/>
+            <xs:element name="recipientAddress" type="xs:string"/>
+            <xs:element name="orderItems" type="tns:orderItemsSoap" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="orderItemsSoap">
+        <xs:sequence>
+            <xs:element name="product" type="xs:string"/>
+            <xs:element name="quantity" type="xs:int"/>
+            <xs:element name="price" type="xs:float"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

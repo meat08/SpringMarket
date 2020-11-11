@@ -17,7 +17,7 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<OrderItem> items;
 
