@@ -17,7 +17,7 @@ public class Order {
     @Column(name = "id")
     private Long id;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER) //TODO eager временно, т.к. soap без авторизации и нет "сессии"
+    @OneToMany(mappedBy = "order")
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<OrderItem> items;
 
