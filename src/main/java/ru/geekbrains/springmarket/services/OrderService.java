@@ -6,9 +6,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import ru.geekbrains.springmarket.entities.Order;
 import ru.geekbrains.springmarket.entities.OrderItem;
+import ru.geekbrains.springmarket.entities.dto.OrderDto;
 import ru.geekbrains.springmarket.repositories.OrderRepository;
 import ru.geekbrains.springmarket.soap.orders.OrderItemsSoap;
 import ru.geekbrains.springmarket.soap.orders.OrderSoap;
+import ru.geekbrains.springmarket.utils.MyPage;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,8 +24,9 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
-    public Page<Order> findByUsername(String username, int page, int size) {
-        return orderRepository.findAllOrdersByUsername(username, PageRequest.of(page, size));
+    public MyPage<OrderDto> findByUsername(String username, int page, int size) {
+        Page<Order> content = orderRepository.findAllOrdersByUsername(username, PageRequest.of(page, size));
+        return new MyPage<>(content.getContent().stream().map(OrderDto::new).collect(Collectors.toList()), content.getPageable(), content.getTotalElements());
     }
 
     public void save(Order order) {

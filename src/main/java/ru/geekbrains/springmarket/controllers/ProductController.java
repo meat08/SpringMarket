@@ -1,17 +1,15 @@
 package ru.geekbrains.springmarket.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springmarket.entities.Product;
 import ru.geekbrains.springmarket.entities.dto.ProductDto;
 import ru.geekbrains.springmarket.exceptions.ResourceNotFoundException;
 import ru.geekbrains.springmarket.services.ProductService;
+import ru.geekbrains.springmarket.utils.MyPage;
 import ru.geekbrains.springmarket.utils.ProductFilter;
 
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/products")
@@ -20,11 +18,10 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping(produces = "application/json")
-    public Page<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
-                                        @RequestParam Map<String, String> params) {
+    public MyPage<ProductDto> getAllProducts(@RequestParam(defaultValue = "1", name = "p") Integer page,
+                                             @RequestParam Map<String, String> params) {
         ProductFilter productFilter = new ProductFilter(params);
-        Page<Product> content =productService.findAll(productFilter.getSpec(), page - 1, 5);
-        return new PageImpl<>(content.getContent().stream().map(ProductDto::new).collect(Collectors.toList()), content.getPageable(), content.getTotalElements());
+        return productService.findAll(productFilter.getSpec(), page - 1, 5);
     }
 
     @GetMapping(value = "/{id}", produces = "application/json")
