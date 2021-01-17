@@ -44,7 +44,7 @@ public class ProductService {
 
     public Optional<Product> findByIdIdentity(Long id) {
         Optional<Product> product;
-        if (productMap.isEmpty() || productMap.get(id).isPresent()) {
+        if (productMap.isEmpty() || productMap.get(id).isEmpty()) {
             product = productRepository.findById(id);
             productMap.put(id, product);
             return product;
