@@ -1,6 +1,7 @@
 package ru.geekbrains.springmarket.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
@@ -11,7 +12,9 @@ import ru.geekbrains.springmarket.repositories.ProductRepository;
 import ru.geekbrains.springmarket.soap.products.ProductSoap;
 import ru.geekbrains.springmarket.utils.MyPage;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -19,6 +22,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class ProductService {
     private final ProductRepository productRepository;
+    private Map<Long, Optional<Product>> productMap;
+
+    @Autowired
+    public void setProductMap() {
+        productMap = new HashMap<>();
+    }
 
     public MyPage<ProductDto> findAll(Specification<Product> spec, int page, int size) {
         Page<Product> content = productRepository.findAll(spec, PageRequest.of(page, size));
@@ -31,6 +40,16 @@ public class ProductService {
 
     public Optional<Product> findById(Long id) {
         return productRepository.findById(id);
+    }
+
+    public Optional<Product> findByIdIdentity(Long id) {
+        Optional<Product> product;
+        if (productMap.isEmpty() || productMap.get(id).isPresent()) {
+            product = productRepository.findById(id);
+            productMap.put(id, product);
+            return product;
+        }
+        return productMap.get(id);
     }
 
     public Product save(Product product) {
