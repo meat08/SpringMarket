@@ -24,6 +24,10 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public List<OrderDto> findAllMapper() {
+        return orderRepository.findAll().stream().map(OrderDto::new).collect(Collectors.toList());
+    }
+
     public MyPage<OrderDto> findByUsername(String username, int page, int size) {
         Page<Order> content = orderRepository.findAllOrdersByUsername(username, PageRequest.of(page, size));
         return new MyPage<>(content.getContent().stream().map(OrderDto::new).collect(Collectors.toList()), content.getPageable(), content.getTotalElements());
