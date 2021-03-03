@@ -62,4 +62,8 @@ angular.module('app').controller('authController', function ($scope, $http, $loc
         return $scope.isUserRole("ROLE_ADMIN");
     };
 
+    $scope.isProductEdit = function () {
+        return $scope.isUserRole("EDIT_PRODUCTS");
+    }
+
 });

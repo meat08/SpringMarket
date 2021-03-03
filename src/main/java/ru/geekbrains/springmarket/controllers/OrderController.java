@@ -2,6 +2,7 @@ package ru.geekbrains.springmarket.controllers;
 
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springmarket.entities.Order;
 import ru.geekbrains.springmarket.entities.User;
@@ -23,6 +24,7 @@ public class OrderController {
     private final UserService userService;
 
     @GetMapping
+    @PreAuthorize("hasAuthority('VIEW_ORDERS')")
     public MyPage<OrderDto> getOrdersByUser(Principal principal,
                                             @RequestParam(defaultValue = "1", name = "p") Integer page) {
         return orderService.findByUsername(principal.getName(), page - 1, 5);

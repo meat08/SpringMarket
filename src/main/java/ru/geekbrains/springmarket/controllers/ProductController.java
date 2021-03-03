@@ -1,6 +1,7 @@
 package ru.geekbrains.springmarket.controllers;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.geekbrains.springmarket.entities.Product;
 import ru.geekbrains.springmarket.entities.dto.ProductDto;
@@ -30,6 +31,7 @@ public class ProductController {
     }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
+    @PreAuthorize("hasAuthority('EDIT_PRODUCTS')")
     public Product createProduct(@RequestBody Product p) {
         p.setId(null);
         return productService.save(p);

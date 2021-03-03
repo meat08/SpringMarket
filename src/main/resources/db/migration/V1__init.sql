@@ -21,12 +21,25 @@ CREATE TABLE roles (
     name            VARCHAR(50) NOT NULL
 );
 
+CREATE TABLE privileges (
+    id              BIGSERIAL PRIMARY KEY,
+    name            VARCHAR(50) NOT NULL
+);
+
 CREATE TABLE users_roles (
     user_id         BIGSERIAL NOT NULL,
     role_id         BIGSERIAL NOT NULL,
     PRIMARY KEY (user_id, role_id),
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+CREATE TABLE roles_privileges (
+    role_id         BIGSERIAL NOT NULL,
+    privilege_id    BIGSERIAL NOT NULL,
+    PRIMARY KEY (role_id, privilege_id),
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+    FOREIGN KEY (privilege_id) REFERENCES privileges(id)
 );
 
 CREATE TABLE categories (
@@ -95,6 +108,11 @@ VALUES
 ('ROLE_USER'),
 ('ROLE_ADMIN');
 
+INSERT INTO privileges (name) VALUES
+('EDIT_PRODUCTS'),
+('VIEW_ORDERS'),
+('VIEW_PROFILE');
+
 INSERT INTO users (username, password)
 VALUES
 ('user1', '$2a$10$KTAfCx9c84nYy010lfkX8.lYpzojGKBCotQgBuT0vIqS81uuUNn5S'),
@@ -110,3 +128,10 @@ VALUES
 (1, 1),
 (1, 2),
 (2, 1);
+
+INSERT INTO roles_privileges (role_id, privilege_id) VALUES
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 2),
+(2, 3);
